@@ -1,4 +1,7 @@
-<p align="center"># Cross chain transfer example</p>
+<h1 align="center">
+Cross chain transfer example
+</h1>
+
 
 ## Main commands
 
