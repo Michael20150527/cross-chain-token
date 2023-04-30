@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+# Cross chain transfer example
+## Main commands
+```
+npx create-react-app cross-chain-token
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+cd cross-chain-token
 
-## Available Scripts
+npm install --save-dev ethereum-waffle @nomiclabs/hardhat-waffle chai ethers @nomiclabs/hardhat-ethers
 
-In the project directory, you can run:
+npm install -D tailwindcss postcss autoprefixer
 
-### `npm start`
+npx tailwindcss init -p
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Update tailwind.config.js to the following:
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+npm install --save-dev hardhat
 
-### `npm test`
+npx hardhat
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+npm install --save-dev "hardhat@^2.14.0" "@nomicfoundation/hardhat-toolbox@^2.0.0"
 
-### `npm run build`
+Update hardhat.config.js to the following:
+require("@nomicfoundation/hardhat-toolbox");
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+/** @type import('hardhat/config').HardhatUserConfig */
+module.exports = {
+  paths: {
+    artifacts: "./src/artifacts",
+  },
+  solidity: "0.8.18",
+};
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Update ./src/index.css to the following:
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+npm install --save-dev @openzeppelin/contracts
 
-### `npm run eject`
+npx hardhat compile
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+npx hardhat node
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+npx hardhat run --network localhost .\scripts\deploy.js
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+npx hardhat test --network localhost .\test\sample-test.js
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+npm start
+```
+## Final operating effect
+![cross-chain screenshot](https://github.com/Michael20150527/cross-chain-token/blob/master/cross-chain-token.png "cross chain transfer")
