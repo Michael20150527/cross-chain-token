@@ -1,5 +1,7 @@
-<center># Cross chain transfer example</center>
+<p align="center"># Cross chain transfer example</p>
+
 ## Main commands
+
 ```
 npx create-react-app cross-chain-token
 
