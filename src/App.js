@@ -8,8 +8,8 @@ const sepoliaContractAddress = "0x98fF74B788aaddf98f3af977960eC50fE0aA2831";
 const goerliContractAddress = "0xF726e94AfA1603a2f9917004F4515E2903b0fede";
 
 function App() {
-  const [account, setAccount] = useState("")
   const [balance, setBalance] = useState(0)
+  const [contractAddress, setContractAddress] = useState(goerliContractAddress)
 
   // Requests access to the user's Meta Mask Account
   // https://metamask.io/
@@ -23,7 +23,7 @@ function App() {
     if (typeof window.ethereum !== "undefined") {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const contract = new ethers.Contract(
-        goerliContractAddress,
+        contractAddress,
         cctAbi,
         provider
       );
@@ -32,7 +32,6 @@ function App() {
       try {
         const data = (await contract.balanceOf(account)).toString();
         console.log("data: ", data);
-        setAccount(account);
         setBalance(data);
       } catch (error) {
         console.log("Error: ", error);
@@ -53,7 +52,7 @@ function App() {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
 
-      const contract = new ethers.Contract(goerliContractAddress, cctAbi, signer);
+      const contract = new ethers.Contract(contractAddress, cctAbi, signer);
       const transaction = await contract.bridge(amount, {value: ethers.utils.parseUnits("12345678", "gwei")});
 
       await transaction.wait();
@@ -67,11 +66,20 @@ function App() {
     event.target.amountInput.value = ""
   }
 
+  function handleChange(event) {
+    console.log("contractAddress: ", event.target.value)
+    setContractAddress(event.target.value)
+    setBalance(0)
+  }
+
   return (
     <div className="w-full max-w-lg container">
       <div className="shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-4">
         <div className="text-gray-600 font-bold text-lg mb-2">
-          Goerli testnet
+          <select onChange={event => handleChange(event)}>
+              <option value={goerliContractAddress}>Goerli</option>
+              <option value={sepoliaContractAddress}>Sepolia</option>
+          </select>
         </div>
         <div className="w-full border-4 p-2 mb-4 rounded border-gray-400">
           <div className="text-gray-600 font-bold text-md mb-2">
@@ -101,7 +109,7 @@ function App() {
         </div>
         <div className="w-full border-4 p-2 mb-4 rounded border-gray-400 bg-gray-100">
           <div className="text-gray-600 font-bold text-md mb-2">
-            Account {account} balance
+            Account balance
           </div>
           <p>
             {balance}
